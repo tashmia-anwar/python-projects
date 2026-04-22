@@ -10,13 +10,16 @@ def home():
 # Takes user request to roll the number of dice, otherwise rolls two dice
 @app.route("/roll")
 def game():
-    num = int(request.args.get("dice", 2))
-    rolls = []
-    for _ in range(num):
-        die = random.randint(1,6)
-        rolls.append(die)
-    # return str(rolls)
-    return jsonify({"rolls": rolls})
+    try:
+        num = int(request.args.get("dice", 2))
+        rolls = []
+        for _ in range(num):
+            die = random.randint(1,6)
+            rolls.append(die)
+        # return str(rolls)
+        return jsonify({"rolls": rolls})
+    except ValueError:
+        return jsonify({"error": "dice must be a number"})
 
 if __name__ == "__main__":
     app.run(debug=True)
